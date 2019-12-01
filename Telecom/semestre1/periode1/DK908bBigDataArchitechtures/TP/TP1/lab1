@@ -1,0 +1,163 @@
+import redis
+from datetime import timedelta
+
+r = redis.Redis(host='localhost', port=6379, db=0)
+r.set('foo', 'bar')
+pubsub = r.pubsub() #returns all the activa channels on the server.
+
+def checkRange(choice):
+  if choice != 1 & choice != 2  & choice != 3  & choice != 4 & choice != 5 & choice != 6 & choice != 0:
+   return False
+  return True 
+
+
+def menu():
+ print("**********choose one of the following option from the menu***********\n")
+ print("\n 1)Enter 1 to add or publish a new book \n\n 2)Enter 2 to subscribe to a channel \n\n 3)Enter 3 to borrow a book \n\n 4)Enter 4 to return a book \n ")
+ print(" 5) Enter 5 for Book info \n\n 6) Enter 6 to read messages and retrieve book from news by ID \n\n 7)Enter 0 to exit  ")
+ choice = input()
+ while choice.isdigit() == False:
+   print("\n\n !!!!!! READ CAREFULLY THE MENU BECAUSE YOU ENTERED A WRONG NUMBER!!!!!!!!!!!\n\n")
+   print("**********choose one of the following option from the menu***********\n")
+   print("\n 1)Enter 1 to add or publish a new book \n\n 2)Enter 2 to subscribe to a channel \n\n 3)Enter 3 to borrow a book \n\n 4)Enter 4 to return a book \n ")
+   print(" 5) Enter 5 for Book info \n\n 6) Enter 6 to read messages and retrieve book from news by ID \n\n 7)Enter 0 to exit  ")
+   choice = input()
+ 
+ return choice
+
+
+def checkBookExpiration(ISBN) :
+   ttl = r.ttl(ISBN)
+   if ttl <= 0 :
+     return True
+   else :
+     return False
+
+
+
+class publisher:
+
+  #method that add book
+  def addBook(ISBN,title,author,numberOfCopies):
+    
+    #create the dictionary containing all the fields of the user's book
+    book = {"title":title,"author":author,'numberOfCopies':numberOfCopies }
+    r.hmset(ISBN, book)
+    #set the expire time of the key that hold data for this book
+    r.expire(ISBN, timedelta(minutes=1))
+    #publish the newly created book on the correposnding channel
+    print( r.publish(title,ISBN))
+    print("***succesfully added the book and sent a message to channel : "+subscriber.getChannelPattern(title)+"\n\n")
+
+  #method that given the ISBN return the book data
+  def getBook(ISBN):
+    #print(r.hgetall(ISBN))
+    return r.hgetall(ISBN)
+    
+    
+class subscriber:
+
+ #performs subscription given the pattern
+ def subscribe(channelPattern):
+  pubsub.subscribe(channelPattern)
+
+ #get the channel pattern given the channel
+ def getChannelPattern(channel):
+
+  if len(channel) < 4 :
+      channelPattern = channel
+  else :
+      channelPattern = channel[:4]
+  return channelPattern 
+
+ #method that reads messages and return info on the correponding books
+ def retrieveBookInfoFromNews():
+  while True :
+   #print(pubsub.set())
+   try :
+     message= pubsub.get_message()
+     if message:
+       type = message['type']
+       data = message['data']
+       if type == 'message':
+        print("data for book ISBN = ")
+        print(data)
+        print(publisher.getBook(ISBN))
+        #print(message)
+     else : break
+
+   except:
+     print("LOOK OUT: you did not subscribe to any channel so can't see any message!!!!!!")
+     return 
+    
+   
+ 
+  #************** input menu***************
+
+
+
+while 1 :
+ choice = int(menu())
+ if choice == 0:
+   print("You choosed 0,Bye Bye")
+   break
+ else:
+  
+   #add a new book
+   if choice == 1:
+     ISBN = input("enter ISBN  ")
+     title = input("enter title  ")
+     author = input("enter author  ")
+     numberOfCopies = input("enter number of copies  ")
+     publisher.addBook(ISBN,title,author,numberOfCopies)
+
+   #subscribe to a channel
+   if choice == 2:
+     channelPattern = input("enter the cahnnel key word  ")
+     subscriber.subscribe(channelPattern)
+     print("***succesfully subscribed to channel : "+channelPattern+"\n\n")
+
+   #borrow a book
+   if choice == 3:
+     ISBN = input("Enter the ISBN of the desired book ")
+     #book = publisher.getBook(ISBN)
+     expired = checkBookExpiration(ISBN)
+     
+     if expired :
+       print("SORRY, this book is no more avilable in the catalogue\n\n ")
+     else :
+        book = publisher.getBook(ISBN)
+        print(book)
+        #print()
+        numberOfCopies = int(r.hget(ISBN,"numberOfCopies"))
+        if numberOfCopies ==0 :
+          print("SORRY, this book is no more avilable in the catalogue \n\n")
+        else :
+          #update the total number of copies for the book
+          r.hset(ISBN,"numberOfCopies",numberOfCopies-1)
+          #update the TTL
+          r.expire(ISBN, timedelta(minutes=120))
+          print("GOOOOOD: you have succesfully completed your borrow operation\n\n")
+
+   #return a book
+   if choice == 4 :
+      ISBN = input("Enter the ISBN of the book you want to return")
+      book = publisher.getBook(ISBN)
+      numberOfCopies = int(r.hget(ISBN,"numberOfCopies"))
+      if not bool(book) :
+       print("SORRY but this book does not exist\n\n")
+      else :
+       r.hset(ISBN,"numberOfCopies",numberOfCopies+1)
+       r.expire(ISBN, timedelta(minutes=120))
+       print("GOOOOOD: you have succesfully completed your return operation\n\n")
+ 
+   #get book details
+   if choice == 5:
+     ISBN = input("enter ISBN  ")
+     print(publisher.getBook(ISBN))
+   
+   #get book ID from news and return details
+   if choice == 6:
+    
+    subscriber.retrieveBookInfoFromNews()
+
