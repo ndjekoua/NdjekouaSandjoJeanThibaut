@@ -1,0 +1,24 @@
+2 boundary
+eg: in the estimation if i buy a library i should not consider that function anymore in the computation of the LOC's.Very important to nkow what is
+in and what is out because what is out should not count in the effort.
+3 components data
+there is a perect match between this and a class in a class diagram.
+FTR = number of classes touched by the function
+
+first you list the classes,then you define the functions that should be inside and basing on the numbers of attributes touched you give a weight.
+
+                                     FAST FP(functions points)                            LFAST FP                 FINAL FP
+ILF patient                           10                                                                   10      low complexity(4DE   7
+ILF test(or test result)              10                                                                   10      low complexity(5DE   7
+ 
+functions   insert new patient 5                                  EI                                        4      low writes 4 dets in1 3
+            search patient     5                                  EQ(because there is no process of data)   4
+            show patients      5                                  EO                                        5
+            insert test (for one patient) 5                       EI                                        4
+            show tests (for one patient)  5                       EQ                                        4
+            show tests results(for one patient) 5                 EQ                                        5
+            insert test result(for one test or one patient) 5     EI                                        4
+                                                            =55
+NB: FUNCTIONS TO BE CONSIDER ARE THE ONES THAT ToUCHES AT LEAST ONE CLASS IN THE ILF oe ELT                      =50                     40(not suure te be computed by the prof )
+or functions that can be seen or interacting with the end user.
+DE= number of fields
