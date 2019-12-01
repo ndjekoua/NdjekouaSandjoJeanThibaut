@@ -1,0 +1,26 @@
+**notes on Neural Networks:
+ in genral when we want to define a NN we have to deifne 3 main elements:
+1)the model
+2)the optimizer
+3)the loss
+
+1) The model
+ the pytorch's recommended way is to use a class becsuse it allows to create really complex models. In this way we just 
+need to define the carachteristics of the different layers(here by layer we intend the weigth matrix that need to be learnt)
+we can have convolutional layers (conv2d()) or also linear layers (Linear()).
+in the model we also need to define the forward function. NB: we do not need to define the biais vector because it can be 
+infed automatically from the definition of the various layers. 
+
+2)THE OPPTIMIZER
+Optimizer = optm.SGD(model.parameters, learning_rate)
+ this is the one that will compute the loss function and from that will also compute the gradients. there 
+some predefined loss functions like (SGD,momentenum ect..)
+
+3) loss function
+ criterion = nn.MSELoss()
+ then Loss = criterion(hat_y,y)
+
+ **********Questions ::
+1) the first one gives me a strange Error
+2) when i use the BCE, it does not works
+3) how do we define the biais??
