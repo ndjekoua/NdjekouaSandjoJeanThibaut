@@ -1,0 +1,17 @@
+## Piece of code to estimate the time of execution in python
+
+
+## If you want to estimate the time of a block on one run
+from time import time
+start = time()
+np.ones(10000) * 2
+np.ones(10000) * 2
+print(time() - start)
+
+## If you want to estimate the time of a block one several runs to have a better estimation
+## At the beginning of the CELL add
+%%timeit
+
+## If you want to estimate the time of a line one several runs to have a better estimation
+## At the beginning of the LINE add
+%timeit
