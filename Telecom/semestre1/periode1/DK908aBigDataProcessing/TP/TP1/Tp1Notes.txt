@@ -1,0 +1,5 @@
+for runnig my programm i have to
+1) be in the same folder either localy and on the lame machine
+2)modify the file locally then upload it on lame using scp -r dk908a lame11:
+3)compile using bash compile.sh
+4) if there are no errors, run hadoop ... to execute
