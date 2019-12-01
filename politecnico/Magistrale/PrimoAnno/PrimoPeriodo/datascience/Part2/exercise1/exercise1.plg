@@ -1,0 +1,51 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\ntame\Desktop\lab7\exercise1\exercise1.uvproj
+Project File Date:  11/26/2018
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling template.s...
+linking...
+Program Size: Code=564 RO-data=204 RW-data=0 ZI-data=512  
+"exercise1.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling template.s...
+template.s(165): warning: A1581W: Added 2 bytes of padding at address 0x7a
+template.s:   165 0000007c Price_list     DCD 0x004, 120, 0x006, 315, 0x007, 1210, 0x00A, 245 
+template.s: 0 Errors, 1 Warning
+linking...
+Program Size: Code=564 RO-data=204 RW-data=0 ZI-data=512  
+"exercise1.axf" - 0 Error(s), 1 Warning(s).
+assembling template.s...
+template.s(165): warning: A1581W: Added 2 bytes of padding at address 0x7a
+template.s:   165 0000007c Price_list     DCD 0x004, 120, 0x006, 315, 0x007, 1210, 0x00A, 245 
+template.s: 0 Errors, 1 Warning
+template.s - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+assembling template.s...
+template.s(165): warning: A1581W: Added 2 bytes of padding at address 0x7a
+template.s:   165 0000007c Price_list     DCD 0x004, 120, 0x006, 315, 0x007, 1210, 0x00A, 245 
+template.s: 0 Errors, 1 Warning
+linking...
+Program Size: Code=564 RO-data=204 RW-data=0 ZI-data=512  
+"exercise1.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+assembling template.s...
+template.s(165): warning: A1581W: Added 2 bytes of padding at address 0x7a
+template.s:   165 0000007c Price_list     DCD 0x004, 120, 0x006, 315, 0x007, 1210, 0x00A, 245 
+template.s: 0 Errors, 1 Warning
+linking...
+Program Size: Code=564 RO-data=204 RW-data=0 ZI-data=512  
+"exercise1.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+assembling template.s...
+template.s(165): warning: A1581W: Added 2 bytes of padding at address 0x7a
+template.s:   165 0000007c Price_list     DCD 0x004, 120, 0x006, 315, 0x007, 1210, 0x00A, 245 
+template.s: 0 Errors, 1 Warning
+linking...
+Program Size: Code=564 RO-data=204 RW-data=0 ZI-data=512  
+"exercise1.axf" - 0 Error(s), 1 Warning(s).
